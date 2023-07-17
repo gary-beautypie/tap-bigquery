@@ -241,7 +241,11 @@ def do_sync(config, state, stream):
                 elif prop.type[1] == "number":
                     record[key] = Decimal(row[key])
                 elif prop.type[1] == "integer":
-                    record[key] = int(row[key])
+                    try:
+                        record[key] = int(row[key])
+                    except:
+                        print(key)
+                        raise
                 else:
                     record[key] = row[key]
 
