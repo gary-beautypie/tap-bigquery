@@ -54,6 +54,7 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
             query = query + " AND " + f
 
     if keys.get("datetime_key") and keys.get("start_datetime"):
+        original_key = keys.get("datetime_key")
         if keys.get("datetime_key_func"):
             keys["datetime_key"] = keys["datetime_key_func"] + "(" + keys["datetime_key"] + ")"
         if inclusive_start:
@@ -74,7 +75,7 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
 
     if limit is not None:
         query = query + " LIMIT %d" % limit
-
+    keys["datetime_key"] = original_key
     return query
 
 
