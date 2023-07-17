@@ -54,6 +54,8 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
             query = query + " AND " + f
 
     if keys.get("datetime_key") and keys.get("start_datetime"):
+        if keys.get("datetime_key_func"):
+            keys["datetime_key"] = keys["datetime_key_func"] + "(" + keys["datetime_key"] + ")"
         if inclusive_start:
             query = (query +
                      (" AND datetime '{start_datetime}' <= " +
@@ -91,6 +93,7 @@ def do_discover(config, stream, output_schema_file=None,
     keys = {"table": stream["table"],
             "columns": stream["columns"],
             "datetime_key": stream["datetime_key"],
+            "datetime_key_func": stream["datetime_key_func"],
             "start_datetime": start_datetime,
             "end_datetime": end_datetime
             }
@@ -133,7 +136,8 @@ def do_discover(config, stream, output_schema_file=None,
             "table": stream["table"],
             "columns": stream["columns"],
             "filters": stream.get("filters", []),
-            "datetime_key": stream["datetime_key"]
+            "datetime_key": stream["datetime_key"],
+            "datetime_key_func": stream["datetime_key_func"]
             # "inclusion": "available",
             # "table-key-properties": ["id"],
             # "valid-replication-keys": ["date_modified"],
@@ -184,6 +188,7 @@ def do_sync(config, state, stream):
     keys = {"table": metadata["table"],
             "columns": metadata["columns"],
             "datetime_key": metadata.get("datetime_key"),
+            "datetime_key_func": metadata.get("datetime_key_func"),
             "start_datetime": start_datetime,
             "end_datetime": end_datetime
             }
