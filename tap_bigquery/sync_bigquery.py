@@ -261,7 +261,6 @@ def do_sync(config, state, stream):
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
                         record[key] = row[key]
-                        print(record)
                 else:
                     record[key] = row[key]
                 print(record)
