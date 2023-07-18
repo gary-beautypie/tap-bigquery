@@ -247,9 +247,13 @@ def do_sync(config, state, stream):
                     record[key] = int(row[key])
                 elif prop.type[1] == "array":
                     if prop.items.type[1] == "object":
+                        print(record)
                         for item_prop_key, item_prop in prop.items.properties.items():
+                            print(record)
                             if item_prop.format == "date-time":
-                                for x in row[key]:
+                                print(record)
+                                for x in row[
+                                    print(record)key]:
                                     if type(x[item_prop_key]) == str:
                                         r = dateutil.parser.parse(x[item_prop_key])
                                     elif type(row[key]) == datetime.date:
@@ -263,7 +267,6 @@ def do_sync(config, state, stream):
                         record[key] = row[key]
                 else:
                     record[key] = row[key]
-                print(record)
 
             if LEGACY_TIMESTAMP in properties.keys():
                 record[LEGACY_TIMESTAMP] = int(round(time.time() * 1000))
