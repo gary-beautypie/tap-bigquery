@@ -252,15 +252,29 @@ def do_sync(config, state, stream):
                                 for x in row[key]:
                                     if type(x[item_prop_key]) == str:
                                         r = dateutil.parser.parse(x[item_prop_key])
-                                    elif type(row[key]) == datetime.date:
+                                    elif type(x[item_prop_key]) == datetime.date:
                                         r = datetime.datetime(
                                             year=x[item_prop_key].year,
                                             month=x[item_prop_key].month,
                                             day=x[item_prop_key].day)
-                                    elif type(row[key]) == datetime.datetime:
+                                    elif type(x[item_prop_key]) == datetime.datetime:
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
                         record[key] = row[key]
+                elif prop.type[1] == "object":
+                    for item_prop_key, item_prop in prop.properties.items():
+                        if item_prop.format == "date-time":
+                            if type(row[key][item_prop_key]) == str:
+                                r = dateutil.parser.parse(row[key][item_prop_key])
+                            elif type(row[key][item_prop_key]) == datetime.date:
+                                r = datetime.datetime(
+                                    year=row[key][item_prop_key].year,
+                                    month=row[key][item_prop_key].month,
+                                    day=row[key][item_prop_key].day)
+                            elif type(row[key][item_prop_key]) == datetime.datetime:
+                                r = row[key][item_prop_key]
+                            row[key][item_prop_key] = r.isoformat()
+                    record[key] = row[key]
                 else:
                     record[key] = row[key]
 
