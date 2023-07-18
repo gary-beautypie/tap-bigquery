@@ -252,8 +252,8 @@ def do_sync(config, state, stream):
                             print(record)
                             if item_prop.format == "date-time":
                                 print(record)
-                                for x in row[
-                                    print(record)key]:
+                                for x in row[key]:
+                                    print(record)
                                     if type(x[item_prop_key]) == str:
                                         r = dateutil.parser.parse(x[item_prop_key])
                                     elif type(row[key]) == datetime.date:
