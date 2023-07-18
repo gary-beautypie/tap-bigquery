@@ -250,7 +250,6 @@ def do_sync(config, state, stream):
                         for item_prop_key, item_prop in prop.items.properties.items():
                             if item_prop.format == "date-time":
                                 for x in row[key]:
-                                    print(item_prop_key, item_prop, x, row[key])
                                     if type(x[item_prop_key]) == str:
                                         r = dateutil.parser.parse(x[item_prop_key])
                                     elif type(row[key]) == datetime.date:
@@ -261,6 +260,7 @@ def do_sync(config, state, stream):
                                     elif type(row[key]) == datetime.datetime:
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
+                                print(item_prop_key, item_prop, x, row[key], r.isoformat())            
                         record[key] = row[key]
                         print(row, record)
                 else:
