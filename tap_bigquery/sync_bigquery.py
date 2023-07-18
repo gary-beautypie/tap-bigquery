@@ -244,11 +244,22 @@ def do_sync(config, state, stream):
                 elif prop.type[1] == "number":
                     record[key] = Decimal(row[key])
                 elif prop.type[1] == "integer":
-                    try:
-                        record[key] = int(row[key])
-                    except:
-                        print(key)
-                        raise
+                    record[key] = int(row[key])
+                elif prop.type[1] == "array":
+                    if prop.items.type[1] == "object":
+                        for item_prop_key, item_prop in prop.items.properties.items():
+                            if item_prop.format == "date-time":
+                                for x in row[key]:
+                                    if type(x[item_prop_key]) == str:
+                                        r = dateutil.parser.parse(x[item_prop_key])
+                                    elif type(row[key]) == datetime.date:
+                                        r = datetime.datetime(
+                                            year=x[item_prop_key].year,
+                                            month=x[item_prop_key].month,
+                                            day=x[item_prop_key].day)
+                                    elif type(row[key]) == datetime.datetime:
+                                        r = x[item_prop_key]
+                                    x[item_prop_key] = r.isoformat()
                 else:
                     record[key] = row[key]
 
@@ -256,7 +267,7 @@ def do_sync(config, state, stream):
                 record[LEGACY_TIMESTAMP] = int(round(time.time() * 1000))
             if EXTRACT_TIMESTAMP in properties.keys():
                 record[EXTRACT_TIMESTAMP] = extract_tstamp.isoformat()
-            print(record)
+
             singer.write_record(stream.stream, record)
 
             last_update = record[keys["datetime_key"]]
