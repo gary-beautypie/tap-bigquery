@@ -250,6 +250,7 @@ def do_sync(config, state, stream):
                         print(key)
                         raise
                 else:
+                    print(prop.format, key, type(row[key]))
                     record[key] = row[key]
 
             if LEGACY_TIMESTAMP in properties.keys():
