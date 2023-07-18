@@ -176,7 +176,10 @@ def do_sync(config, state, stream):
             inclusive_start = False
     else:
         start_datetime = config.get("start_datetime")
-    start_datetime = dateutil.parser.parse(start_datetime).strftime(
+    if isinstance(start_datetime, int):
+        start_datetime = datetime.datetime.fromtimestamp(start_datetime / 1000000)
+    else:
+        start_datetime = dateutil.parser.parse(start_datetime).strftime(
             "%Y-%m-%d %H:%M:%S.%f")
 
     if config.get("end_datetime"):
