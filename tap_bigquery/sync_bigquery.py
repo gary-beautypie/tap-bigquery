@@ -260,7 +260,7 @@ def do_sync(config, state, stream):
                                     elif type(row[key]) == datetime.datetime:
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
-                                print(item_prop_key, item_prop, x, row[key], r.isoformat())            
+                        print(row[key], x)
                         record[key] = row[key]
                         print(row, record)
                 else:
