@@ -248,7 +248,6 @@ def do_sync(config, state, stream):
                 elif prop.type[1] == "array":
                     if prop.items.type[1] == "object":
                         for item_prop_key, item_prop in prop.items.properties.items():
-                            print(item_prop_key, item_prop)
                             if item_prop.format == "date-time":
                                 for x in row[key]:
                                     if type(x[item_prop_key]) == str:
