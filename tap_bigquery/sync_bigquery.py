@@ -260,9 +260,7 @@ def do_sync(config, state, stream):
                                     elif type(row[key]) == datetime.datetime:
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
-                        print(row[key], x)
                         record[key] = row[key]
-                        print(row, record)
                 else:
                     record[key] = row[key]
 
@@ -270,7 +268,7 @@ def do_sync(config, state, stream):
                 record[LEGACY_TIMESTAMP] = int(round(time.time() * 1000))
             if EXTRACT_TIMESTAMP in properties.keys():
                 record[EXTRACT_TIMESTAMP] = extract_tstamp.isoformat()
-
+            print(record)
             singer.write_record(stream.stream, record)
 
             last_update = record[keys["datetime_key"]]
