@@ -248,6 +248,7 @@ def do_sync(config, state, stream):
                 elif prop.type[1] == "array":
                     if prop.items.type[1] == "object":
                         for item_prop_key, item_prop in prop.items.properties.items():
+                            print(item_prop_key, item_prop)
                             if item_prop.format == "date-time":
                                 for x in row[key]:
                                     if type(x[item_prop_key]) == str:
@@ -261,7 +262,7 @@ def do_sync(config, state, stream):
                                         r = x[item_prop_key]
                                     x[item_prop_key] = r.isoformat()
                         record[key] = row[key]
-                        print(row)
+                        print(row, record)
                 else:
                     record[key] = row[key]
 
