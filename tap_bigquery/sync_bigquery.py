@@ -282,7 +282,7 @@ def do_sync(config, state, stream):
                 record[LEGACY_TIMESTAMP] = int(round(time.time() * 1000))
             if EXTRACT_TIMESTAMP in properties.keys():
                 record[EXTRACT_TIMESTAMP] = extract_tstamp.isoformat()
-            print(record)
+
             singer.write_record(stream.stream, record)
 
             last_update = record[keys["datetime_key"]]
